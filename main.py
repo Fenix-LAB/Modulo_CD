@@ -1,9 +1,11 @@
 from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo   # Modulo Serial de PyQt5
 from PyQt5.QtCore import *                                    # Modulo PyQt5 para intarfaces graficas
+from PyQt5.QtWidgets import *
 from gui_design import *
 from PyQt5.QtGui import *
 import pyqtgraph as pg
 import numpy as np
+from datetime import datetime
 
 #Clase de la ventana heredada de la interfaz "gui_design.py"
 class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -22,6 +24,8 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btn_cerrar.clicked.connect(self.control_btn_cerrar)
         self.btn_normal.clicked.connect(self.control_btn_normal)
         self.btn_max.clicked.connect(self.control_btn_maximizar)
+        self.btn_capturar.clicked.connect(self.control_btn_capturar)
+        self.cont = 0
 
 
         # Se elimina la barra de titulo por default
@@ -46,6 +50,9 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # Asociacion de metodos
         self.serial.readyRead.connect(self.read_data)
+
+        # DateTime
+        self.now = datetime.now()
 
         # Graficas
         self.x = list(np.linspace(0, 150, 150))
@@ -166,8 +173,30 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def showInfo(self):
         self.val_RC.setText(str(self.dato1))
-        self.val_porcentaje.setText(str(self.dato2))
+        #self.val_porcentaje.setText(str(self.dato2))
         self.indicator_oxigeno(int(self.dato3))
+
+
+    def control_btn_capturar(self):
+        #self.list_datos = [{"Fecha": self.now.date(), "Hora": str(self.now.hour) + ':' + str(self.now.minute),
+                            #"Oxigeno" : self.val_acotado, "Temperatura" : 36, "RC": self.dato1}]
+        self.list_upd = dict()
+        self.list_datos = {"Fecha": self.now.date(), "Hora": str(self.now.hour) + ':' + str(self.now.minute),
+                            "Oxigeno": 50, "Temperatura": 36, "RC": 20}
+
+        self.list_upd[self.cont] = self.list_datos
+        #self.list_datos = np.array([str(self.now.date()), str(self.now.hour) + ':' + str(self.now.minute), 50, 36, 20])
+        #print(self.list_datos)
+        row = 0
+        self.table_datos.setRowCount(len(self.list_upd))
+        for i in self.list_upd:
+            self.table_datos.setItem(row, 0, QtWidgets.QTableWidgetItem(str(i["Fecha"])))
+            self.table_datos.setItem(row, 1, QtWidgets.QTableWidgetItem(str(i["Hora"])))
+            self.table_datos.setItem(row, 2, QtWidgets.QTableWidgetItem(str(i["Oxigeno"])))
+            self.table_datos.setItem(row, 3, QtWidgets.QTableWidgetItem(str(i["Temperatura"])))
+            self.table_datos.setItem(row, 4, QtWidgets.QTableWidgetItem(str(i["RC"])))
+            row += 1
+        self.cont += 1
 
     # Metodo para enviar datos por comunicacion Serial
     def send_data(self, data):
