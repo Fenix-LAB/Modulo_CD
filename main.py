@@ -25,8 +25,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btn_normal.clicked.connect(self.control_btn_normal)
         self.btn_max.clicked.connect(self.control_btn_maximizar)
         self.btn_capturar.clicked.connect(self.control_btn_capturar)
-        self.cont = 0
-
 
         # Se elimina la barra de titulo por default
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
@@ -178,25 +176,18 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
     def control_btn_capturar(self):
-        #self.list_datos = [{"Fecha": self.now.date(), "Hora": str(self.now.hour) + ':' + str(self.now.minute),
-                            #"Oxigeno" : self.val_acotado, "Temperatura" : 36, "RC": self.dato1}]
-        self.list_upd = dict()
-        self.list_datos = {"Fecha": self.now.date(), "Hora": str(self.now.hour) + ':' + str(self.now.minute),
-                            "Oxigeno": 50, "Temperatura": 36, "RC": 20}
+        fecha = self.now.date()
+        print(fecha)
+        hora = str(self.now.hour) + ':' + str(self.now.minute)
+        #self.table_datos.setRowCount(self.cont)
+        rowPosition = self.table_datos.rowCount()
+        self.table_datos.insertRow(rowPosition)
+        self.table_datos.setItem(self.table_datos.rowCount() - 1, 0, QtWidgets.QTableWidgetItem(str(fecha)))
+        self.table_datos.setItem(self.table_datos.rowCount() - 1, 1, QtWidgets.QTableWidgetItem(str(hora)))
+        self.table_datos.setItem(self.table_datos.rowCount() - 1, 2, QtWidgets.QTableWidgetItem(str(100)))
+        self.table_datos.setItem(self.table_datos.rowCount() - 1, 3, QtWidgets.QTableWidgetItem(str(30)))
+        self.table_datos.setItem(self.table_datos.rowCount() - 1, 4, QtWidgets.QTableWidgetItem(str(50)))
 
-        self.list_upd[self.cont] = self.list_datos
-        #self.list_datos = np.array([str(self.now.date()), str(self.now.hour) + ':' + str(self.now.minute), 50, 36, 20])
-        #print(self.list_datos)
-        row = 0
-        self.table_datos.setRowCount(len(self.list_upd))
-        for i in self.list_upd:
-            self.table_datos.setItem(row, 0, QtWidgets.QTableWidgetItem(str(i["Fecha"])))
-            self.table_datos.setItem(row, 1, QtWidgets.QTableWidgetItem(str(i["Hora"])))
-            self.table_datos.setItem(row, 2, QtWidgets.QTableWidgetItem(str(i["Oxigeno"])))
-            self.table_datos.setItem(row, 3, QtWidgets.QTableWidgetItem(str(i["Temperatura"])))
-            self.table_datos.setItem(row, 4, QtWidgets.QTableWidgetItem(str(i["RC"])))
-            row += 1
-        self.cont += 1
 
     # Metodo para enviar datos por comunicacion Serial
     def send_data(self, data):
