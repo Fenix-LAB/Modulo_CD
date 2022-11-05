@@ -6,6 +6,8 @@ from PyQt5.QtGui import *
 import pyqtgraph as pg
 import numpy as np
 from datetime import datetime
+import pywhatkit
+
 
 #Clase de la ventana heredada de la interfaz "gui_design.py"
 class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -25,6 +27,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btn_normal.clicked.connect(self.control_btn_normal)
         self.btn_max.clicked.connect(self.control_btn_maximizar)
         self.btn_capturar.clicked.connect(self.control_btn_capturar)
+        self.btn_enviar.clicked.connect(self.msgWhatsApp)
 
         # Se elimina la barra de titulo por default
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
@@ -174,16 +177,15 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         #self.val_porcentaje.setText(str(self.dato2))
         self.indicator_oxigeno(int(self.dato3))
 
-
     def control_btn_capturar(self):
-        fecha = self.now.date()
-        print(fecha)
-        hora = str(self.now.hour) + ':' + str(self.now.minute)
+        self.fecha = self.now.date()
+        #print(fecha)
+        self.hora = str(self.now.hour) + ':' + str(self.now.minute)
         #self.table_datos.setRowCount(self.cont)
         rowPosition = self.table_datos.rowCount()
         self.table_datos.insertRow(rowPosition)
-        self.table_datos.setItem(self.table_datos.rowCount() - 1, 0, QtWidgets.QTableWidgetItem(str(fecha)))
-        self.table_datos.setItem(self.table_datos.rowCount() - 1, 1, QtWidgets.QTableWidgetItem(str(hora)))
+        self.table_datos.setItem(self.table_datos.rowCount() - 1, 0, QtWidgets.QTableWidgetItem(str(self.fecha)))
+        self.table_datos.setItem(self.table_datos.rowCount() - 1, 1, QtWidgets.QTableWidgetItem(str(self.hora)))
         self.table_datos.setItem(self.table_datos.rowCount() - 1, 2, QtWidgets.QTableWidgetItem(str(100)))
         self.table_datos.setItem(self.table_datos.rowCount() - 1, 3, QtWidgets.QTableWidgetItem(str(30)))
         self.table_datos.setItem(self.table_datos.rowCount() - 1, 4, QtWidgets.QTableWidgetItem(str(50)))
@@ -197,6 +199,25 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.serial.isOpen():
             self.serial.write(data.encode())
             #print("enviado")
+
+    def msgWhatsApp(self):
+        number = self.textEdit_whats.toPlainText()
+        msg = """Bienvenido a consulta a distancia. 
+        La informacion que hemos obtenido a la {hora}:{minutos} es la siguiente:
+        {temp} °C
+        {OX} Oxigeno en Sangre
+        {RC} Ritmo Cardiaco"""
+        hr = self.now.hour
+        min = self.now.minute
+        temp = 36
+        #OX = self.val_acotado
+        OX = 10
+        #RC = self.dato1
+        RC = 20
+
+        msg_new = msg.replace('{hora}', str(hr)).replace('{minutos}', str(min)).replace('{temp}', str(temp)).replace('{OX}', str(OX)).replace('{RC}', str(RC))
+        #print(msg_new)
+        pywhatkit.sendwhatmsg(number, msg_new, hr, min+1)
 
     def indicator_oxigeno(self, val):
         # Indicador de temperatura
