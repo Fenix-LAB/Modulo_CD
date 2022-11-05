@@ -996,8 +996,8 @@ background-color: rgb(240, 250, 255);
                  <widget class="QFrame" name="frame_8">
                   <property name="geometry">
                    <rect>
-                    <x>480</x>
-                    <y>440</y>
+                    <x>470</x>
+                    <y>470</y>
                     <width>311</width>
                     <height>191</height>
                    </rect>
@@ -1014,126 +1014,138 @@ background-color: rgb(240, 250, 255);
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
                   </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_8">
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_14">
-                     <property name="spacing">
-                      <number>50</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_7">
-                       <property name="text">
-                        <string>Temperatura</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_12">
-                       <item>
-                        <widget class="QLabel" name="val_temperatura">
-                         <property name="minimumSize">
-                          <size>
-                           <width>31</width>
-                           <height>41</height>
-                          </size>
-                         </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>31</width>
-                           <height>41</height>
-                          </size>
-                         </property>
-                         <property name="text">
-                          <string>36</string>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLabel" name="label_10">
-                         <property name="minimumSize">
-                          <size>
-                           <width>31</width>
-                           <height>41</height>
-                          </size>
-                         </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>31</width>
-                           <height>41</height>
-                          </size>
-                         </property>
-                         <property name="text">
-                          <string>°C</string>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_15">
-                     <property name="spacing">
-                      <number>20</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_8">
-                       <property name="text">
-                        <string>Ritmo Cardiaco</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_13">
-                       <item>
-                        <widget class="QLabel" name="val_RC">
-                         <property name="minimumSize">
-                          <size>
-                           <width>31</width>
-                           <height>41</height>
-                          </size>
-                         </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>31</width>
-                           <height>41</height>
-                          </size>
-                         </property>
-                         <property name="text">
-                          <string>3</string>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLabel" name="label_12">
-                         <property name="minimumSize">
-                          <size>
-                           <width>31</width>
-                           <height>41</height>
-                          </size>
-                         </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>31</width>
-                           <height>41</height>
-                          </size>
-                         </property>
-                         <property name="text">
-                          <string>RH</string>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </item>
-                    </layout>
-                   </item>
-                  </layout>
+                  <widget class="QLabel" name="label_7">
+                   <property name="geometry">
+                    <rect>
+                     <x>12</x>
+                     <y>50</y>
+                     <width>138</width>
+                     <height>28</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>Temperatura</string>
+                   </property>
+                  </widget>
+                  <widget class="QLabel" name="label_8">
+                   <property name="geometry">
+                    <rect>
+                     <x>12</x>
+                     <y>120</y>
+                     <width>170</width>
+                     <height>28</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>Ritmo Cardiaco</string>
+                   </property>
+                  </widget>
+                  <widget class="QLabel" name="val_RC">
+                   <property name="geometry">
+                    <rect>
+                     <x>203</x>
+                     <y>110</y>
+                     <width>31</width>
+                     <height>41</height>
+                    </rect>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>31</width>
+                     <height>41</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>31</width>
+                     <height>41</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>3</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                   </property>
+                  </widget>
+                  <widget class="QLabel" name="label_12">
+                   <property name="geometry">
+                    <rect>
+                     <x>241</x>
+                     <y>110</y>
+                     <width>31</width>
+                     <height>41</height>
+                    </rect>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>31</width>
+                     <height>41</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>31</width>
+                     <height>41</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>RH</string>
+                   </property>
+                  </widget>
+                  <widget class="QLabel" name="val_temperatura">
+                   <property name="geometry">
+                    <rect>
+                     <x>201</x>
+                     <y>40</y>
+                     <width>31</width>
+                     <height>41</height>
+                    </rect>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>31</width>
+                     <height>41</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>31</width>
+                     <height>41</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>36</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                   </property>
+                  </widget>
+                  <widget class="QLabel" name="label_10">
+                   <property name="geometry">
+                    <rect>
+                     <x>239</x>
+                     <y>40</y>
+                     <width>31</width>
+                     <height>41</height>
+                    </rect>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>31</width>
+                     <height>41</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>31</width>
+                     <height>41</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>°C</string>
+                   </property>
+                  </widget>
                  </widget>
                 </widget>
                </item>

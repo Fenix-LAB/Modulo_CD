@@ -32,7 +32,7 @@
 
 MAX30105 particleSensor;
 
-#define A0 4
+//#define A0 4
 #define MAX_BRIGHTNESS 255
 
 #if defined(__AVR_ATmega328P__) || defined(__AVR_ATmega168__)

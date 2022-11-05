@@ -52,9 +52,9 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.y = list(np.linspace(0, 0, 150))
 
         # Creacion de la grafica 1
-        pg.setConfigOption('background', '#2c2c2c')
-        pg.setConfigOption('foreground', '#ffffff')
-        self.plt = pg.PlotWidget(title='Grafica Sensor 1')
+        pg.setConfigOption('background', '#ebfeff')
+        pg.setConfigOption('foreground', '#000000')
+        self.plt = pg.PlotWidget(title='Electrocardiograma')
         self.graph_electro.addWidget(self.plt)
 
         # Se inician los siguientes metodos y atributos adicionles
@@ -130,7 +130,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.comboBox_velocidad.clear()
         self.comboBox_puerto.addItems(portList)
         self.comboBox_velocidad.addItems(self.baudrates)
-        self.comboBox_velocidad.setCurrentText("9600")      # Se coloca por default una velocidad de  9600 baudios
+        self.comboBox_velocidad.setCurrentText("115200")      # Se coloca por default una velocidad de  9600 baudios
 
     # Conexion con las caracteristicas especificadas de velocidad y puerto
     def serial_conect(self):
@@ -160,13 +160,14 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.y.append(x1)
 
         self.plt.clear()
-        self.plt.plot(self.x, self.y, pen=pg.mkPen('#da0037', width=2))
+        self.plt.plot(self.x, self.y, pen=pg.mkPen('#1300FF', width=2))
 
         self.showInfo()
 
     def showInfo(self):
         self.val_RC.setText(str(self.dato1))
         self.val_porcentaje.setText(str(self.dato2))
+        self.indicator_oxigeno(int(self.dato3))
 
     # Metodo para enviar datos por comunicacion Serial
     def send_data(self, data):
@@ -176,6 +177,27 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.serial.isOpen():
             self.serial.write(data.encode())
             #print("enviado")
+
+    def indicator_oxigeno(self, val):
+        # Indicador de temperatura
+        estilo_temp = """QFrame{
+        border-radius: 100px;
+        background-color: qconicalgradient(cx:0.5, cy:0.5, angle:90, stop:{stop1} rgba(255, 72, 72, 255), stop:{stop2} rgba(255, 188, 188, 80));
+        }"""
+        # Indicadores de 0 a 1
+        # Stop2 es el valor al que se coloca el indicador
+        if val > 100 or val < 0:
+            self.val_acotado = 100
+
+        self.val_porcentaje.setText(str(self.val_acotado))
+
+        self.val_map = val/100
+        stop2 = val
+        stop1 = stop2 - 0.001
+        Sstop1 = str(stop1)
+        Sstop2 = str(stop2)
+        nuevo_estilo = estilo_temp.replace('{stop1}', Sstop1).replace('{stop2}', Sstop2)
+        self.Indicador_OS.setStyleSheet(nuevo_estilo)
 
 
 if __name__ == "__main__":
