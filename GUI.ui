@@ -877,6 +877,18 @@ background-color: rgb(230, 240, 255);
                           <height>16777215</height>
                          </size>
                         </property>
+                        <property name="font">
+                         <font>
+                          <family>Arial Black</family>
+                          <pointsize>8</pointsize>
+                          <weight>10</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">font: 87 8pt &quot;Arial Black&quot;;</string>
+                        </property>
                         <property name="text">
                          <string>10</string>
                         </property>
@@ -996,10 +1008,10 @@ background-color: rgb(240, 250, 255);
                  <widget class="QFrame" name="frame_8">
                   <property name="geometry">
                    <rect>
-                    <x>470</x>
-                    <y>470</y>
-                    <width>311</width>
-                    <height>191</height>
+                    <x>410</x>
+                    <y>480</y>
+                    <width>371</width>
+                    <height>221</height>
                    </rect>
                   </property>
                   <property name="styleSheet">
@@ -1014,24 +1026,11 @@ background-color: rgb(240, 250, 255);
                   <property name="frameShadow">
                    <enum>QFrame::Raised</enum>
                   </property>
-                  <widget class="QLabel" name="label_7">
-                   <property name="geometry">
-                    <rect>
-                     <x>12</x>
-                     <y>50</y>
-                     <width>138</width>
-                     <height>28</height>
-                    </rect>
-                   </property>
-                   <property name="text">
-                    <string>Temperatura</string>
-                   </property>
-                  </widget>
                   <widget class="QLabel" name="label_8">
                    <property name="geometry">
                     <rect>
                      <x>12</x>
-                     <y>120</y>
+                     <y>40</y>
                      <width>170</width>
                      <height>28</height>
                     </rect>
@@ -1043,21 +1042,21 @@ background-color: rgb(240, 250, 255);
                   <widget class="QLabel" name="val_RC">
                    <property name="geometry">
                     <rect>
-                     <x>203</x>
-                     <y>110</y>
-                     <width>31</width>
+                     <x>200</x>
+                     <y>40</y>
+                     <width>50</width>
                      <height>41</height>
                     </rect>
                    </property>
                    <property name="minimumSize">
                     <size>
-                     <width>31</width>
+                     <width>50</width>
                      <height>41</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>31</width>
+                     <width>50</width>
                      <height>41</height>
                     </size>
                    </property>
@@ -1071,8 +1070,8 @@ background-color: rgb(240, 250, 255);
                   <widget class="QLabel" name="label_12">
                    <property name="geometry">
                     <rect>
-                     <x>241</x>
-                     <y>110</y>
+                     <x>260</x>
+                     <y>40</y>
                      <width>31</width>
                      <height>41</height>
                     </rect>
@@ -1093,57 +1092,59 @@ background-color: rgb(240, 250, 255);
                     <string>RH</string>
                    </property>
                   </widget>
-                  <widget class="QLabel" name="val_temperatura">
+                  <widget class="QLabel" name="label_9">
                    <property name="geometry">
                     <rect>
-                     <x>201</x>
-                     <y>40</y>
-                     <width>31</width>
-                     <height>41</height>
+                     <x>20</x>
+                     <y>110</y>
+                     <width>170</width>
+                     <height>28</height>
                     </rect>
                    </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>31</width>
-                     <height>41</height>
-                    </size>
+                   <property name="text">
+                    <string>PPM</string>
                    </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>31</width>
-                     <height>41</height>
-                    </size>
+                  </widget>
+                  <widget class="QLabel" name="label_11">
+                   <property name="geometry">
+                    <rect>
+                     <x>20</x>
+                     <y>170</y>
+                     <width>111</width>
+                     <height>28</height>
+                    </rect>
                    </property>
                    <property name="text">
-                    <string>36</string>
+                    <string>Estado</string>
+                   </property>
+                  </widget>
+                  <widget class="QLabel" name="label_15">
+                   <property name="geometry">
+                    <rect>
+                     <x>240</x>
+                     <y>110</y>
+                     <width>51</width>
+                     <height>28</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>100</string>
+                   </property>
+                  </widget>
+                  <widget class="QLabel" name="label_estado">
+                   <property name="geometry">
+                    <rect>
+                     <x>170</x>
+                     <y>170</y>
+                     <width>131</width>
+                     <height>28</height>
+                    </rect>
+                   </property>
+                   <property name="text">
+                    <string>Normal</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                   </property>
-                  </widget>
-                  <widget class="QLabel" name="label_10">
-                   <property name="geometry">
-                    <rect>
-                     <x>239</x>
-                     <y>40</y>
-                     <width>31</width>
-                     <height>41</height>
-                    </rect>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>31</width>
-                     <height>41</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>31</width>
-                     <height>41</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>°C</string>
                    </property>
                   </widget>
                  </widget>
@@ -1204,12 +1205,12 @@ background-color: rgb(230, 240, 255);
                     </column>
                     <column>
                      <property name="text">
-                      <string>Temperatura</string>
+                      <string>Ritmo Cardiaco</string>
                      </property>
                     </column>
                     <column>
                      <property name="text">
-                      <string>Ritmo Cardiaco</string>
+                      <string>Estado</string>
                      </property>
                     </column>
                    </widget>

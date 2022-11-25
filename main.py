@@ -8,7 +8,6 @@ import numpy as np
 from datetime import datetime
 import pywhatkit
 
-
 #Clase de la ventana heredada de la interfaz "gui_design.py"
 class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     # Se define le contructor con todos los atributos necesarios y asociacion de metodos
@@ -67,6 +66,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # Se inician los siguientes metodos y atributos adicionles
         self.read_ports()
+        self.estado = "Normal"
 
     # Metodo del boton de menu
     def mover_menu(self):
@@ -158,9 +158,9 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.dato1 = listaDatos[0]
         self.dato2 = listaDatos[1]
         self.dato3 = listaDatos[2]
-        print(self.dato1)
-        print(self.dato2)
-        print(self.dato3)
+        self.dato4 = listaDatos[3]
+        #print(self.dato1)
+        #print(self.dato2)
 
         x1 = float(self.dato3)
 
@@ -175,7 +175,14 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def showInfo(self):
         self.val_RC.setText(str(self.dato1))
         #self.val_porcentaje.setText(str(self.dato2))
-        self.indicator_oxigeno(int(self.dato3))
+        self.indicator_oxigeno(int(self.dato2))
+        self.label_15.setText((str(self.dato4)))
+
+        if float(self.dato4) > 3:
+            self.estado = "Alcoholico"
+        else:
+            self.estado = "Normal"
+        self.label_estado.setText(self.estado)
 
     def control_btn_capturar(self):
         self.fecha = self.now.date()
@@ -186,9 +193,9 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.table_datos.insertRow(rowPosition)
         self.table_datos.setItem(self.table_datos.rowCount() - 1, 0, QtWidgets.QTableWidgetItem(str(self.fecha)))
         self.table_datos.setItem(self.table_datos.rowCount() - 1, 1, QtWidgets.QTableWidgetItem(str(self.hora)))
-        self.table_datos.setItem(self.table_datos.rowCount() - 1, 2, QtWidgets.QTableWidgetItem(str(100)))
-        self.table_datos.setItem(self.table_datos.rowCount() - 1, 3, QtWidgets.QTableWidgetItem(str(30)))
-        self.table_datos.setItem(self.table_datos.rowCount() - 1, 4, QtWidgets.QTableWidgetItem(str(50)))
+        self.table_datos.setItem(self.table_datos.rowCount() - 1, 2, QtWidgets.QTableWidgetItem(str(self.val_acotado)))
+        self.table_datos.setItem(self.table_datos.rowCount() - 1, 3, QtWidgets.QTableWidgetItem(str(self.dato1)))
+        self.table_datos.setItem(self.table_datos.rowCount() - 1, 4, QtWidgets.QTableWidgetItem(str(self.estado)))
 
 
     # Metodo para enviar datos por comunicacion Serial
@@ -204,18 +211,19 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         number = self.textEdit_whats.toPlainText()
         msg = """Bienvenido a consulta a distancia. 
         La informacion que hemos obtenido a la {hora}:{minutos} es la siguiente:
-        {temp} °C
         {OX} Oxigeno en Sangre
-        {RC} Ritmo Cardiaco"""
+        {RC} Ritmo Cardiaco
+        Estado actual de alcohol {est} """
         hr = self.now.hour
         min = self.now.minute
+        #temp = self.dato4
         temp = 36
-        #OX = self.val_acotado
-        OX = 10
-        #RC = self.dato1
-        RC = 20
+        OX = self.val_acotado
+        #OX = 10
+        RC = self.dato1
+        #RC = 20
 
-        msg_new = msg.replace('{hora}', str(hr)).replace('{minutos}', str(min)).replace('{temp}', str(temp)).replace('{OX}', str(OX)).replace('{RC}', str(RC))
+        msg_new = msg.replace('{hora}', str(hr)).replace('{minutos}', str(min)).replace('{est}', str(self.estado)).replace('{OX}', str(OX)).replace('{RC}', str(RC))
         #print(msg_new)
         pywhatkit.sendwhatmsg(number, msg_new, hr, min+1)
 
@@ -227,13 +235,15 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         }"""
         # Indicadores de 0 a 1
         # Stop2 es el valor al que se coloca el indicador
-        if val > 100 or val < 0:
+        self.val_acotado=val
+        if self.val_acotado > 100 or self.val_acotado < 0:
             self.val_acotado = 100
 
         self.val_porcentaje.setText(str(self.val_acotado))
 
-        self.val_map = val/100
-        stop2 = val
+        self.val_map = self.val_acotado/100
+        #print(self.val_map)
+        stop2 = self.val_map
         stop1 = stop2 - 0.001
         Sstop1 = str(stop1)
         Sstop2 = str(stop2)

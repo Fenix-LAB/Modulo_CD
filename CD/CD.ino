@@ -25,12 +25,27 @@
   The MAX30105 Breakout can handle 5V or 3.3V I2C logic. We recommend powering the board with 5V
   but it will also run at 3.3V.
 */
+#include <MQUnifiedsensor.h>
+
+//Definitions
+#define placa "Arduino UNO"
+#define Voltage_Resolution 5
+#define pin A1 //Analog input 0 of your arduino
+#define type "MQ-135" //MQ135
+#define ADC_Bit_Resolution 10 // For arduino UNO/MEGA/NANO
+#define RatioMQ135CleanAir 3.6//RS / R0 = 3.6 ppm  
+//#define calibration_button 13 //Pin to calibrate your sensor
+
+//Declare Sensor
+MQUnifiedsensor MQ135(placa, Voltage_Resolution, ADC_Bit_Resolution, pin, type);
 
 #include <Wire.h>
 #include "MAX30105.h"
 #include "spo2_algorithm.h"
+//#include <Adafruit_MLX90614.h>
 
 MAX30105 particleSensor;
+//Adafruit_MLX90614 mlx = Adafruit_MLX90614();
 
 //#define A0 4
 #define MAX_BRIGHTNESS 255
@@ -59,7 +74,17 @@ int sensor1;
 void setup()
 {
   Serial.begin(115200); // initialize serial communication at 115200 bits per second:
+  //mlx.begin(); 
+  //Init the serial port communication - to debug the library
+  //Serial.begin(9600); //Init serial port
 
+  //Set math model to calculate the PPM concentration and the value of constants
+  MQ135.setRegressionMethod(1); //_PPM =  a*ratio^b
+  
+  /*****************************  MQ Init ********************************************/ 
+  //Remarks: Configure the pin of arduino as input.
+  /************************************************************************************/ 
+  MQ135.init(); 
   pinMode(pulseLED, OUTPUT);
   pinMode(readLED, OUTPUT);
 
@@ -82,6 +107,21 @@ void setup()
   int adcRange = 4096; //Options: 2048, 4096, 8192, 16384
 
   particleSensor.setup(ledBrightness, sampleAverage, ledMode, sampleRate, pulseWidth, adcRange); //Configure sensor with these settings
+
+  //Serial.print("Calibrating please wait.");
+  float calcR0 = 0;
+  for(int i = 1; i<=10; i ++)
+  {
+    MQ135.update(); // Update data, the arduino will read the voltage from the analog pin
+    calcR0 += MQ135.calibrate(RatioMQ135CleanAir);
+    //Serial.print(".");
+  }
+  MQ135.setR0(calcR0/10);
+  //Serial.println("  done!.");
+  
+  if(isinf(calcR0)) {Serial.println("Warning: Conection issue, R0 is infinite (Open circuit detected) please check your wiring and supply"); while(1);}
+  if(calcR0 == 0){Serial.println("Warning: Conection issue found, R0 is zero (Analog pin shorts to ground) please check your wiring and supply"); while(1);}
+  /*****************************  MQ CAlibration ********************************************/ 
 }
 
 void loop()
@@ -127,12 +167,20 @@ void loop()
       particleSensor.nextSample(); //We're finished with this sample so move to next sample
 
       //send samples and calculation result to terminal program through UART
+      MQ135.update(); // Update data, the arduino will read the voltage from the analog pin
+
+      MQ135.setA(77.255); MQ135.setB(-3.18); //Configure the equation to calculate Alcohol concentration value
+      float Alcohol = MQ135.readSensor(); // SSensor will read PPM concentration using the model, a and b values set previously or from the setup
+ 
+  // Note: 400 Offset for CO2 source: https://github.com/miguel5612/MQSensorsLib/issues/29
       sensor1 = analogRead(A0);
       Serial.print(heartRate, DEC);
       Serial.print(',');
       Serial.print(spo2, DEC);
       Serial.print(',');
-      Serial.println(sensor1);
+      Serial.print(sensor1);
+      Serial.print(',');
+      Serial.println(Alcohol);
     }
     //After gathering 25 new samples recalculate HR and SP02
     maxim_heart_rate_and_oxygen_saturation(irBuffer, bufferLength, redBuffer, &spo2, &validSPO2, &heartRate, &validHeartRate);
